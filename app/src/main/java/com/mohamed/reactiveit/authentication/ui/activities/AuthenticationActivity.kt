@@ -21,17 +21,13 @@ class AuthenticationActivity : AppCompatActivity() {
 
     private lateinit var viewModel: AuthenticationViewModel
     private val uiCompositeDisposable = CompositeDisposable()
-    private var counter = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authentication)
 
         viewModel = ViewModelProviders.of(this).get(AuthenticationViewModel::class.java)
-        Log.d(TAG, "${viewModel.stateSubject.value}")
         val ignored = viewModel.stateSubject.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                counter++
-                Log.d(TAG, "Counter $counter , Stream ${it.source}")
                 if (it.done) {
                     startActivityFinishThis(HomeActivity::class.java)
                     viewModel.stateSubject.onNext(AuthenticationViewState.reset())
@@ -57,30 +53,24 @@ class AuthenticationActivity : AppCompatActivity() {
                 }
             }
         val ignored2 = viewModel.signInSubject.subscribe {
-            Log.d(TAG, "Thread Started")
-            Thread.sleep(5000)
-            Log.d(TAG, "Thread wait is finished")
             when (it.isSuccess()) {
                 true -> when (it.data) {
                     true -> viewModel.stateSubject.onNext(
                         viewModel.stateSubject.value!!.copy(
-                            done = true,
-                            source = "signInSubject"
+                            done = true
                         )
                     )
                     false -> viewModel.stateSubject.onNext(
                         viewModel.stateSubject.value!!.copy(
                             loading = false,
-                            error = true,
-                            source = "signInSubject"
+                            error = true
                         )
                     )
                 }
                 false -> viewModel.stateSubject.onNext(
                     viewModel.stateSubject.value!!.copy(
                         loading = false,
-                        error = true,
-                        source = "signInSubject"
+                        error = true
                     )
                 )
             }
