@@ -12,7 +12,7 @@ import com.mohamed.reactiveit.common.utils.TAG
 import com.mohamed.reactiveit.common.utils.afterTextChanged
 import com.mohamed.reactiveit.common.utils.click
 import com.mohamed.reactiveit.common.utils.startActivityFinishThis
-import com.mohamed.reactiveit.home.HomeActivity
+import com.mohamed.reactiveit.home.ui.HomeActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_authentication.*
