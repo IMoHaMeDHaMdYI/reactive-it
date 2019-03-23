@@ -8,11 +8,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.mohamed.reactiveit.R
 import com.mohamed.reactiveit.authentication.ui.viewmodels.AuthenticationViewModel
 import com.mohamed.reactiveit.authentication.ui.viewmodels.AuthenticationViewState
-import com.mohamed.reactiveit.common.utils.TAG
-import com.mohamed.reactiveit.common.utils.afterTextChanged
-import com.mohamed.reactiveit.common.utils.click
-import com.mohamed.reactiveit.common.utils.startActivityFinishThis
-import com.mohamed.reactiveit.home.ui.HomeActivity
+import com.mohamed.reactiveit.common.CurrentUser
+import com.mohamed.reactiveit.common.db.ECommerceDatabase
+import com.mohamed.reactiveit.common.utils.*
+import com.mohamed.reactiveit.home.ui.activities.HomeActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_authentication.*
@@ -24,12 +23,16 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authentication)
-
-        viewModel = ViewModelProviders.of(this).get(AuthenticationViewModel::class.java)
+        val db = ECommerceDatabase.getInstance(applicationContext)
+        val viewModelFactory = AuthenticationViewModel.Factory(db.userDao())
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthenticationViewModel::class.java)
         val ignored = viewModel.stateSubject.observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .subscribe { it ->
                 if (it.done) {
-                    startActivityFinishThis(HomeActivity::class.java)
+                    CurrentUser.user = viewModel.userSubject.value!!
+                    startActivityFinishThis(HomeActivity::class.java) { intent ->
+                        intent.putExtra(CURRENT_USER, viewModel.userSubject.value!!)
+                    }
                     viewModel.stateSubject.onNext(AuthenticationViewState.reset())
                     return@subscribe
                 }
@@ -91,6 +94,20 @@ class AuthenticationActivity : AppCompatActivity() {
                 Log.d(TAG, "Throwable : $it")
             }
         )
+
+        uiCompositeDisposable.add(btnSignUp.click().subscribe({
+            viewModel.stateSubject.onNext(
+                viewModel.stateSubject.value!!.copy(
+                    loading = true,
+                    error = false,
+                    source = "Click"
+                )
+            )
+            viewModel.signUp(viewModel.userNameSubject.value
+                ?: "", viewModel.userPasswordSubject.value ?: "")
+        }) {
+            Log.d(TAG, it.localizedMessage)
+        })
 
         uiCompositeDisposable.add(btnSignIn.click().subscribe({
             viewModel.stateSubject.onNext(

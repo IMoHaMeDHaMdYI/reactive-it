@@ -14,6 +14,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,11 +28,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
+
 
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -41,12 +45,19 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp-urlconnection:3.10.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
 
-    def lifecycle_version = "2.1.0-alpha02"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03"
 
+    implementation 'androidx.room:room-runtime:2.1.0-alpha05'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha05'
+
+    implementation 'androidx.room:room-rxjava2:2.1.0-alpha05'
+
+    implementation "androidx.paging:paging-runtime-ktx:2.1.0" // use -ktx for Kotlin
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
 
 
 }

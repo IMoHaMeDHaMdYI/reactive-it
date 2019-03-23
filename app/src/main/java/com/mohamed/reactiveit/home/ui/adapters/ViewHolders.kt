@@ -10,8 +10,9 @@ import com.mohamed.reactiveit.common.baseadapter.Displayable
 import com.mohamed.reactiveit.common.baseadapter.ViewRenderer
 
 class ProductLoadingRenderer(type: Int, private val context: Context) : ViewRenderer<Displayable, ProductLoadingViewHolder>(type = type) {
-    override fun bindView(model: Displayable, holder: ProductLoadingViewHolder) {
+    override fun bindView(model: Displayable, holder: ProductLoadingViewHolder, onItemClicked: (Displayable) -> Unit) {
     }
+
 
     override fun createViewHolder(parent: ViewGroup): ProductLoadingViewHolder {
         return ProductLoadingViewHolder(LayoutInflater.from(context)
@@ -20,6 +21,32 @@ class ProductLoadingRenderer(type: Int, private val context: Context) : ViewRend
 
 }
 
-class ProductLoadingViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+class ProductLoadingViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+class ProductLoadingMoreRenderer(type: Int, private val context: Context) : ViewRenderer<Displayable, ProductLoadingMoreViewHolder>(type = type) {
+    override fun bindView(model: Displayable, holder: ProductLoadingMoreViewHolder, onItemClicked: (Displayable) -> Unit) {
+
+    }
+
+
+    override fun createViewHolder(parent: ViewGroup): ProductLoadingMoreViewHolder {
+        return ProductLoadingMoreViewHolder(LayoutInflater.from(context)
+            .inflate(R.layout.item_loading, parent, false))
+    }
 
 }
+
+class ProductLoadingMoreViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+class ProductEmptyRenderer(type: Int, private val context: Context) : ViewRenderer<Displayable, ProductEmptyViewHolder>(type = type) {
+    override fun bindView(model: Displayable, holder: ProductEmptyViewHolder, onItemClicked: (Displayable) -> Unit) {
+    }
+
+    override fun createViewHolder(parent: ViewGroup): ProductEmptyViewHolder {
+        return ProductEmptyViewHolder(LayoutInflater.from(context)
+            .inflate(R.layout.item_empty, parent, false))
+    }
+
+}
+
+class ProductEmptyViewHolder(val view: View) : RecyclerView.ViewHolder(view)

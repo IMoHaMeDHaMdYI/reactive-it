@@ -20,12 +20,19 @@ abstract class BaseAdapter(protected val dataList: ArrayList<Displayable>) :
 
     }
 
+    var errorPos = -1
+    private var mReady = false
+
     init {
-        setState(STATE_START)
+        if (dataList.size == 0)
+            setState(STATE_LOADING_START)
+        else {
+            mReady = true
+            setState(STATE_START)
+        }
     }
 
     // When true indicates that there is no previous error, loading, or empty states.
-    private var mReady = false
 
     protected val mRendererList = SparseArray<ViewRenderer<Displayable, RecyclerView.ViewHolder>>()
 
@@ -57,12 +64,11 @@ abstract class BaseAdapter(protected val dataList: ArrayList<Displayable>) :
 
     private fun onLoaded() {
         if (!mReady) {
-            dataList.removeAt(dataList.size - 1)
-            notifyItemRemoved(dataList.size)
+            dataList.removeAt(errorPos)
+            notifyItemRemoved(errorPos)
         }
         mReady = true
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Log.d(TAG, "Type in the BaseAdapter : $viewType")
@@ -90,13 +96,17 @@ abstract class BaseAdapter(protected val dataList: ArrayList<Displayable>) :
 
     fun add(item: Displayable) {
         dataList.add(item)
-        notifyItemInserted(dataList.size - 1)
+        notifyDataSetChanged()
     }
 
     fun add(itemList: ArrayList<Displayable>) {
-        val oldSz = itemList.size
         dataList.addAll(itemList)
-        notifyItemRangeInserted(oldSz, itemList.size)
+        notifyDataSetChanged()
+    }
+
+    fun removeAt(pos: Int) {
+        dataList.removeAt(pos)
+        notifyItemRemoved(pos)
     }
 
     private fun add(type: Int) {
@@ -105,7 +115,12 @@ abstract class BaseAdapter(protected val dataList: ArrayList<Displayable>) :
                 return type
             }
         })
-        notifyItemInserted(dataList.size-1)
+        notifyItemInserted(dataList.size - 1)
+        errorPos = dataList.size - 1
+        mReady = false
     }
 
+    fun size(): Int {
+        return if (mReady) dataList.size else dataList.size - 1
+    }
 }

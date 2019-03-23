@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition
+        app:constraintSetEnd="@layout/fragment_profile_end"
+        app:constraintSetStart="@layout/fragment_profile"
+        app:duration="100">
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/rvProducts"
+            app:touchAnchorSide="top" />
+    </Transition>
+</MotionScene>

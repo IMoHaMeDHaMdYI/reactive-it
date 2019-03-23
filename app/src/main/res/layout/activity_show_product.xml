@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.ui.activities.ShowProductActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/viewCircular"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/background_circular_view"
+            android:foreground="@drawable/foreground_circular_view"
+            android:transitionName="@string/img_transition"
+            app:layout_constraintBottom_toBottomOf="@id/imgProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--TODO Make this a ViewPager-->
+        <ImageView
+            android:id="@+id/imgProduct"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:foreground="#abffffff"
+            android:src="@drawable/ic_store"
+            android:visibility="invisible" />
+
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:transitionName="@string/name_transition"
+            app:layout_constraintBottom_toBottomOf="@id/imgProduct"
+            app:layout_constraintEnd_toEndOf="@id/imgProduct"
+            app:layout_constraintStart_toStartOf="@id/imgProduct"
+            app:layout_constraintTop_toTopOf="@id/imgProduct" />
+
+        <TextView
+            android:id="@+id/tvInformation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/information_colon"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSeller" />
+
+        <TextView
+            android:id="@+id/tvInfText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Information about the product here"
+            android:transitionName="@string/info_transition"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/tvInformation"
+            app:layout_constraintTop_toBottomOf="@id/tvInformation" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price_colon"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/tvInformation"
+            app:layout_constraintTop_toBottomOf="@id/tvInfText" />
+
+        <TextView
+            android:id="@+id/tvPriceInf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="225 EGP"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:transitionName="@string/price_transition"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            app:layout_constraintStart_toEndOf="@id/tvPrice"
+            app:layout_constraintTop_toTopOf="@id/tvPrice" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/ratingBar"
+            style="?attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:isIndicator="true"
+            android:progressTint="@android:color/holo_green_light"
+            android:rating="3.5"
+            android:secondaryProgressTint="@android:color/holo_green_light"
+            android:stepSize="0.1"
+            app:layout_constraintStart_toStartOf="@id/tvInformation"
+            app:layout_constraintTop_toBottomOf="@id/tvPrice" />
+
+        <TextView
+            android:id="@+id/tvSeller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/seller_colon"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/tvInformation"
+            app:layout_constraintTop_toBottomOf="@id/imgProduct" />
+
+        <TextView
+            android:id="@+id/tvSellerInf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Ehab"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvSeller"
+            app:layout_constraintStart_toEndOf="@id/tvSeller"
+            app:layout_constraintTop_toTopOf="@id/tvSeller" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -10,6 +10,13 @@ fun View.click(): Observable<Unit> {
     return ViewClickObservable(this)
 }
 
+fun View.onPreDraw(action: () -> Unit) {
+    viewTreeObserver.addOnPreDrawListener {
+        action()
+        return@addOnPreDrawListener true
+    }
+}
+
 fun EditText.afterTextChanged(): Observable<String> {
     return EditTextWatcherObservable(this)
 }

@@ -16,8 +16,8 @@ fun <T> T.whenNull(`do`: () -> Unit) {
     }
 }
 
-fun <T> Activity.startActivityFinishThis(target: Class<T>) {
+fun <T> Activity.startActivityFinishThis(target: Class<T>,doWithIntent:(Intent)->Intent = {it}) {
     val intent = Intent(this, target)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    startActivity(intent)
+    startActivity(doWithIntent(intent))
 }

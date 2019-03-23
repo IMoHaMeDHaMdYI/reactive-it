@@ -5,4 +5,22 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="cancel">Cancel</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="sellers">Sellers</string>
+    <string name="product_name">Product Name</string>
+    <string name="image_url">Image URL</string>
+    <string name="empty">Empty</string>
+    <string name="price">Price</string>
+    <string name="information">Information</string>
+    <string name="add_product">Add Product</string>
+    <string name="information_colon">Information:</string>
+    <string name="price_colon">Price:</string>
+    <string name="seller_colon">Seller:</string>
+    <string name="img_transition">image transition</string>
+    <string name="name_transition">name transition</string>
+    <string name="price_transition">price transition</string>
+    <string name="info_transition">info transition</string>
 </resources>

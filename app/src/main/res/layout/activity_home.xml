@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:motion="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/motionLayout"
     android:layout_height="match_parent"
-    motion:layoutDescription="@xml/scene_home_motion"
-    tools:context=".home.ui.HomeActivity">
+    tools:context=".home.ui.activities.HomeActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProducts"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        motion:layout_constraintBottom_toTopOf="@id/frameFragmentHolder"
-        motion:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:foreground="?attr/selectableItemBackground"
+        app:itemIconTint="@drawable/state_color_nav_item"
+        app:itemTextColor="@drawable/state_color_nav_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/navigation_home" />
+
 
     <FrameLayout
-        android:id="@+id/frameFragmentHolder"
+        android:id="@+id/frameFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#22f3f5"
-        android:elevation="16dp"
-        motion:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintTop_toBottomOf="@id/appBar" />
+
+    <include
+        android:id="@+id/appBar"
+        layout="@layout/app_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

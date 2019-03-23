@@ -1,7 +1,6 @@
 package com.mohamed.reactiveit.home.ui.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,10 @@ import com.mohamed.reactiveit.common.baseadapter.BaseAdapter
 import com.mohamed.reactiveit.common.baseadapter.Displayable
 import com.mohamed.reactiveit.common.baseadapter.ViewRenderer
 import com.mohamed.reactiveit.common.models.Product
-import com.mohamed.reactiveit.common.utils.TAG
 import kotlinx.android.synthetic.main.item_product.view.*
 
-class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) :
+class ProductAdapter(productList: ArrayList<Displayable>, context: Context,
+                     private val onItemClicked: (Displayable,RecyclerView.ViewHolder) -> Unit) :
     BaseAdapter(productList) {
 
     init {
@@ -23,23 +22,33 @@ class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) 
             renderer = ProductRenderer(STATE_START, context) as ViewRenderer<Displayable, RecyclerView.ViewHolder>
         )
         registerRenderer(
-            renderer = ProductLoadingRenderer(STATE_LOADING, context) as ViewRenderer<Displayable, RecyclerView.ViewHolder>
+            renderer = ProductLoadingRenderer(STATE_LOADING_START, context) as ViewRenderer<Displayable, RecyclerView.ViewHolder>
         )
+        registerRenderer(
+            renderer = ProductLoadingMoreRenderer(STATE_LOADING, context) as ViewRenderer<Displayable, RecyclerView.ViewHolder>
+        )
+        registerRenderer(
+            renderer = ProductEmptyRenderer(STATE_EMPTY, context) as ViewRenderer<Displayable, RecyclerView.ViewHolder>
+        )
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = dataList[position]
         val renderer = mRendererList.get(item.getType())
-        Log.d(TAG, "${item.getType()} + $renderer")
-        renderer?.bindView(item, holder)
+        renderer?.bindView(item, holder, onItemClicked)
     }
 
 
     class ProductViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val imgCart = view.imgCart!!
+        private val imgCart = view.imgCart!!
         val imgProduct = view.imgProduct!!
         val tvName = view.tvName!!
-        fun bind(product: Product) {
+        val tvInformation = view.tvInformation!!
+        val tvPrice = view.tvPrice!!
+        val ratingBar = view.ratingBar!!
+        val circularView = view.viewCircular!!
+        fun bind(product: Product, onItemClicked: (Product,ProductViewHolder) -> Unit ) {
             if (product.inCart) {
                 imgCart.setImageResource(R.drawable.ic_cart_clicked)
             } else {
@@ -49,6 +58,10 @@ class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) 
             Glide.with(view.context)
                 .load(product.url)
                 .into(imgProduct)
+            val price = "${product.price} Price Less"
+            tvPrice.text = price
+            tvInformation.text = product.information
+            ratingBar.rating = product.rating
             imgCart.setOnClickListener {
                 if (product.inCart) {
                     changeImgCart(R.drawable.ic_cart)
@@ -57,6 +70,7 @@ class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) 
                 }
                 product.inCart = !product.inCart
             }
+            itemView.setOnClickListener { onItemClicked(product,this) }
         }
 
         private fun changeImgCart(resource: Int) {
@@ -65,8 +79,8 @@ class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) 
     }
 
     class ProductRenderer(type: Int, private val context: Context) : ViewRenderer<Product, ProductViewHolder>(type = type) {
-        override fun bindView(model: Product, holder: ProductViewHolder) {
-            holder.bind(model)
+        override fun bindView(model: Product, holder: ProductViewHolder, onItemClicked: (Displayable,RecyclerView.ViewHolder) -> Unit) {
+            holder.bind(model, onItemClicked)
         }
 
         override fun createViewHolder(parent: ViewGroup): ProductViewHolder {
@@ -79,7 +93,3 @@ class ProductAdapter(productList: ArrayList<Displayable>, val context: Context) 
         return dataList[position].getType()
     }
 }
-
-
-// TODO Create an Empty, Loading, Error, and Default ViewHolders
-// TODO Create a pass the state of the recycler view from the previous view holders
