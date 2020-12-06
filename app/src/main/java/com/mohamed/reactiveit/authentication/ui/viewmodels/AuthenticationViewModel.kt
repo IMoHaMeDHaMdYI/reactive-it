@@ -29,7 +29,7 @@ class AuthenticationViewModel(userDao: UserDao) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     fun signIn(userName: String, password: String) {
-        // What is this shit ?
+
         compositeDisposable.clear()
         compositeDisposable.add(repo.getUser(userName).subscribeOn(Schedulers.io())
             .subscribe({
