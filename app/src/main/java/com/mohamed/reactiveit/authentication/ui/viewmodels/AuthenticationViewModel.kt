@@ -30,6 +30,7 @@ class AuthenticationViewModel(userDao: UserDao) : ViewModel() {
 
     fun signIn(userName: String, password: String) {
 
+
         compositeDisposable.clear()
         compositeDisposable.add(repo.getUser(userName).subscribeOn(Schedulers.io())
             .subscribe({
